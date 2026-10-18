@@ -1,0 +1,36 @@
+digraph AegisCloud {
+  rankdir=LR;
+  bgcolor="transparent";
+  splines=true;
+  nodesep=0.45;
+  ranksep=0.85;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11,
+        fontcolor="#e6edf7", fillcolor="#0f1c31", color="#22d3ee", penwidth=1.2];
+  edge [color="#34d399", fontcolor="#8aa0c0", fontname="Helvetica", fontsize=9, arrowsize=0.7];
+
+  Browser [label="Brauzer\n(Web Crypto)", fillcolor="#062a33", color="#22d3ee"];
+  App     [label="Next.js tətbiq qatı\n(App Router)", fillcolor="#0f1c31"];
+  Crypto  [label="Kripto modulu\nAES-256-GCM · Ed25519", fillcolor="#101f38", color="#34d399"];
+
+  subgraph cluster_cloud {
+    label="Bulud qatı (PaaS)";
+    fontcolor="#8aa0c0"; color="#1c2c47"; style="rounded";
+    R2  [label="Cloudflare R2\n(private bucket)"];
+    Token [label="R2 API token\n(bucket-scoped)"];
+    DB [label="Supabase\nPostgres"];
+    Events [label="Cloudflare Queues\n+ Worker"];
+  }
+
+  ISMS [label="İSMS\nISO/IEC 27001:2022", shape=box, style="rounded,filled",
+        fillcolor="#101f38", color="#fbbf24"];
+
+  Browser -> App   [label="TLS 1.3"];
+  App     -> Crypto [label="şifrə / imza"];
+  App     -> R2     [label="obyekt"];
+  App     -> Token  [label="məhdud API açarı"];
+  App     -> DB     [label="audit / baseline"];
+  R2      -> Events [label="obyekt hadisəsi"];
+  DB      -> ISMS   [label="sübut / nəzarət", color="#fbbf24"];
+  Token   -> ISMS   [style=dashed, color="#fbbf24", label="giriş nəzarəti"];
+}

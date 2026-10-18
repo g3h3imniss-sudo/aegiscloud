@@ -1,0 +1,12 @@
+name = "aegiscloud-r2-events"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+APP_URL = "https://YOUR_VERCEL_DOMAIN"
+
+[[queues.consumers]]
+queue = "aegiscloud-rdr-events"
+max_batch_size = 10
+max_retries = 5
+dead_letter_queue = "aegiscloud-rdr-events-dlq"

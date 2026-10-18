@@ -1,0 +1,11 @@
+flowchart LR
+    A["Baseline\nSHA-256 Merkle root"] --> B["Monitor\n30s pəncərə"]
+    B --> C{"Dəyişiklik >= 30%\nve ya canary?"}
+    C -- xeyr --> B
+    C -- bəli --> D["Detect\nRANSOMWARE verdikt"]
+    D --> E["Contain\nIAM yazma DONDUR"]
+    E --> F["Audit\nhash-zəncirli log"]
+    F --> G["Restore\nAES-256-GCM + baseline hash"]
+    G --> H{"Bütün fayllar VALID?"}
+    H -- bəli --> I["Operator təsdiqi\nlive-ə köçür"]
+    H -- xeyr --> J["Quarantine\nizolə saxla"]
